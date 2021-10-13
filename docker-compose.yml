@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  zindagiapp:
+    image: ghcr.io/bkort/zindagiapp:latest
+    container_name: zindagi
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${APP_ENV}
+      AuthProvider__DOMAIN: ${APP_AuthProvider_DOMAIN}
+      AuthProvider__CLIENTID: ${APP_AuthProvider_CLIENTID}
+      AuthProvider__CLIENTSECRET: ${APP_AuthProvider_CLIENTSECRET}
+      SMTP__DISABLE: ${APP_SMTP_DISABLE}
+      SMTP__FROM: ${APP_SMTP_FROM}
+      SMTP__HOST: ${APP_SMTP_HOST}
+      SMTP__PORT: ${APP_SMTP_PORT}
+      SMTP__USERNAME: ${APP_SMTP_USERNAME}
+      SMTP__PASSWORD: ${APP_SMTP_PASSWORD}
+      SMTP__USESSL: ${APP_SMTP_USESSL}
+    volumes:
+      - ./persistence/zindagi/logs:/app/logs
+    networks:
+      - default
+    ports:
+      - 80:80
+
+networks:
+  default:
+    name: network_default
+    driver: bridge
